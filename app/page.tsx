@@ -1,47 +1,43 @@
-export default function Page() {
+import { getTeamData, SOURCE_URL } from '@/lib/liquipedia'
+import { SiteHeader } from '@/components/site-header'
+import { Hero } from '@/components/hero'
+import { MatchesSection } from '@/components/matches-section'
+import { RosterSection } from '@/components/roster-section'
+import { AchievementsSection } from '@/components/achievements-section'
+import { SiteFooter } from '@/components/site-footer'
+
+export const revalidate = 900
+
+export default async function Page() {
+  const data = await getTeamData()
+
   return (
-    <main
-      style={{
-        colorScheme: 'light dark',
-        position: 'relative',
-        display: 'flex',
-        minHeight: '100vh',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'light-dark(#fff, #000)',
-        color: 'light-dark(#000, #fff)',
-      }}
-    >
-      <svg
-        aria-hidden="true"
-        style={{ width: 80, height: 80 }}
-        width={80}
-        height={80}
-        fill="none"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="0.5"
-      >
-        <path
-          d="M14.2 14.2H17V6.9375C17 4.76288 15.2371 3 13.0625 3H5.8V5.8M14.2 14.2V7.79063L7.79062 14.2H14.2ZM14.2 14.2V17H6.9375C4.76288 17 3 15.2371 3 13.0625V5.8H5.8M5.8 5.8V12.2313L12.2313 5.8H5.8Z"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <p
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: 'calc(50% + 56px)',
-          transform: 'translateX(-50%)',
-          whiteSpace: 'nowrap',
-          fontSize: '14px',
-          fontWeight: 500,
-          color: 'light-dark(#71717a, #a1a1aa)',
-        }}
-      >
-        Your v0 generation will show here.
-      </p>
-    </main>
+    <>
+      <SiteHeader />
+      <main id="top">
+        {data ? (
+          <>
+            <Hero data={data} />
+            <MatchesSection data={data} />
+            <RosterSection data={data} />
+            <AchievementsSection data={data} />
+          </>
+        ) : (
+          <section className="mx-auto max-w-5xl px-4 py-24">
+            <h1 className="text-3xl font-bold">
+              <span className="text-primary">G2 Esports</span> Rainbow Six Siege
+            </h1>
+            <p className="mt-4 text-muted-foreground">
+              Live data from Liquipedia is temporarily unavailable. See the latest on{' '}
+              <a href={SOURCE_URL} className="text-foreground underline underline-offset-4">
+                Liquipedia
+              </a>
+              .
+            </p>
+          </section>
+        )}
+      </main>
+      <SiteFooter />
+    </>
   )
 }
