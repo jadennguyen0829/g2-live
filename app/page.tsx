@@ -1,4 +1,5 @@
 import { getTeamData, SOURCE_URL } from '@/lib/liquipedia'
+import { getPlayerProfiles } from '@/lib/players'
 import { SiteHeader } from '@/components/site-header'
 import { Hero } from '@/components/hero'
 import { MatchesSection } from '@/components/matches-section'
@@ -10,6 +11,7 @@ export const revalidate = 900
 
 export default async function Page() {
   const data = await getTeamData()
+  const profiles = data ? await getPlayerProfiles(data.roster.map((p) => p.id)) : {}
 
   return (
     <>
@@ -19,7 +21,7 @@ export default async function Page() {
           <>
             <Hero data={data} />
             <MatchesSection data={data} />
-            <RosterSection data={data} />
+            <RosterSection data={data} profiles={profiles} />
             <AchievementsSection data={data} />
           </>
         ) : (

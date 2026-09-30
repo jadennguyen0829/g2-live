@@ -1,7 +1,15 @@
 import type { TeamData } from '@/lib/liquipedia'
+import type { PlayerProfile } from '@/lib/players'
 import { SectionHeading } from '@/components/section-heading'
+import { PlayerCard } from '@/components/player-card'
 
-export function RosterSection({ data }: { data: TeamData }) {
+export function RosterSection({
+  data,
+  profiles,
+}: {
+  data: TeamData
+  profiles: Record<string, PlayerProfile>
+}) {
   const captainId = data.info.captain.match(/"(.+)"/)?.[1]
 
   return (
@@ -11,17 +19,8 @@ export function RosterSection({ data }: { data: TeamData }) {
 
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {data.roster.map((p) => (
-            <li key={p.id} className="flex flex-col gap-1 rounded-lg border border-border bg-card p-4">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-lg font-semibold">{p.id}</span>
-                {p.id === captainId ? (
-                  <span className="rounded bg-primary px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase text-primary-foreground">
-                    Captain
-                  </span>
-                ) : null}
-              </div>
-              <span className="text-sm text-muted-foreground">{p.name}</span>
-              <span className="mt-2 font-mono text-xs text-muted-foreground">Joined {p.joined}</span>
+            <li key={p.id}>
+              <PlayerCard person={p} profile={profiles[p.id]} isCaptain={p.id === captainId} />
             </li>
           ))}
         </ul>
