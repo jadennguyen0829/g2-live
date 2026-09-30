@@ -35,6 +35,7 @@ export function Hero({ data }: { data: TeamData }) {
         <h1 id="hero-title" className="text-balance text-4xl font-bold tracking-tight md:text-6xl">
           <span className="text-primary">G2 Esports</span> Rainbow Six Siege
         </h1>
+        <p className="mt-3 font-mono text-sm font-medium text-primary">Now on GitHub</p>
         <p className="mt-4 max-w-2xl text-pretty leading-relaxed text-muted-foreground md:text-lg">
           This is a website that tracks the Rainbow Six Siege team G2 — the current roster, upcoming
           matches, recent results and trophies, pulled in real time.
